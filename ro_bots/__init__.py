@@ -1,0 +1,1 @@
+from ro_bots.core import run_bots as run
