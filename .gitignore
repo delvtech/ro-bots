@@ -90,7 +90,13 @@ examples/abi/
 
 # Local artifacts
 artifacts/
-build
+build/
+dist/
 packages
 *.egg-info/
+
+# Ro-bots
 agent0
+ro_bots/abis/
+ro_bots/run_hyperdrive_agents.py
+output.png
