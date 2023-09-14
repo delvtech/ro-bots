@@ -4,6 +4,7 @@
 # %%
 # setup
 import nest_asyncio
+from sqlalchemy import true
 nest_asyncio.apply()
 
 # %%
@@ -17,29 +18,36 @@ for k,v in config_data.items():
 
 # %%
 # run trades
-# run_trades([("open_short", 1_000_000)]*107 + [("close_short", 1_000_000)]*107)
-run_trades([("open_long", 10_000)]*108 + [("close_long", 10_000)]*108)
+n_trades = 108 # max out the market
+# n_trades = 4
+run_trades(trade_list=[("open_long", 10_000)]*n_trades + [("close_long", 10_000)]*n_trades)
 
 # %%
 # get data
 time.sleep(1)
 data, pool_info = get_data(session, config_data)
+display(data.iloc[0].T)
 
 # %%
-# plot reserves
 plot_reserves(data, include_buffer=True)
-plot_positions(data)
-# plot_rate_price(data)
-ax1, lines1, labels1 = plot_rate(data, legend=False)
-plot_secondary(data, "spot_price", ax1, lines1, labels1)
 
+# %%
+plot_positions(data)
+
+# %%
+plot_rate_price(data)
+
+# %%
+ax1, lines1, labels1, _data = plot_rate(data, legend=False)
+plot_secondary(_data, "spot_price", ax1, lines1, labels1)
+
+# %%
 # plot reserves in zoom mode
 ax1, lines1, labels1 = plot_reserves(data, include_buffer=True)
 ax1.set_ylim([0,1e8])
 ax1.set_title(f"{ax1.get_title()} zoomed in")
 
 # %%
-data.iloc[0].T
 
 # %%
 # plot individual graphs
